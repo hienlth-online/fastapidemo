@@ -132,14 +132,15 @@ class JsonContentForm extends Component {
 const mapStateToProps = state => {
     return {
         isDisplayForm : state.isDisplayForm,
-        itemEditing : state.itemEditing
+        itemEditing : state.itemEditing,
+        type : state.type
     }
 };
 
 const mapDispatchToProps = (dispatch, props) => {
     return {
-        onSaveTask : (task) => {
-            dispatch(actions.saveTask(task));
+        onSaveTask : (module) => {
+            dispatch(actions.saveTask(module));
         },
         onCloseForm : () => {
             dispatch(actions.closeForm());

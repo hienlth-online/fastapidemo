@@ -22,6 +22,17 @@
     font-size: large;
 }
 
+.button-folder {
+    margin-right: 20px;
+    width: 120px;
+}
+
+.button-download{
+    color: #fff !important;
+    margin: 0 0 0 5px !important;
+    text-decoration: none  !important;
+}
+
 @keyframes App-logo-spin {
     from {
         transform: rotate(0deg);

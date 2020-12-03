@@ -23,10 +23,10 @@ export const actFetchModules = (modules) => {
     }
 }
 
-export const saveTask = (task) => {
+export const saveTask = (module) => {
     return {
         type : types.SAVE_TASK,
-        task // task : task
+        module // module : module
     }
 };
 
@@ -55,17 +55,10 @@ export const updateStatus = (id) => {
     }
 }
 
-export const deleteTask = (id) => {
-    return {
-        type : types.DELETE_TASK,
-        id // id : id
-    }
-}
-
-export const editTask = (task) => {
+export const editTask = (module) => {
     return {
         type : types.EDIT_TASK,
-        task // task : task
+        module // module : module
     }
 }
 
@@ -87,5 +80,12 @@ export const sortTask = (sort) => {
     return {
         type : types.SORT,
         sort // sort : sort -> sort.by sort.value
+    }
+}
+
+export const changeFolder = (module) => {
+    return {
+        type : types.SELECT_FOLDER,
+        module
     }
 }

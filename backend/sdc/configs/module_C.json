@@ -1,0 +1,9 @@
+{
+  "unittest": "true",
+  "elvis_unittest": "true",
+  "sonar": "true",
+  "foss": "true",
+  "elfBuild": "false",
+  "legacyBuild": "false",
+  "codecheck": "false"
+}

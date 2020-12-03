@@ -1,22 +1,44 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import ModuleList from './components/ModuleList';
 import JsonContentForm from './components/JsonContentForm';
 import ModuleGroupControl from './components/ModuleGroupControl';
-import FunctionGroup from './components/FunctionGroup';
 
 import { connect } from 'react-redux';
 import * as actions from './actions/index';
+import * as Config from './constants/Config';
 
-function useModule(initialModule = 'sdc') {
-  const [module, setModule] = useState('sdc');
-  const setmod = (v) => setModule(v);
-  const reset = () => setModule(initialModule);
-  return [module, setmod, reset];
-}
 
 class App extends Component {
-    //const [moduleT, setModule] = useState('sdc');
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: null,
+            isLoaded: false,
+            items: [],
+            module: 'sdc'
+        };
+    }
+
+    componentDidMount() {
+        fetch(`${Config.API_URL}/jsonlist/${this.state.type}`)
+        .then(res => res.json())
+        .then(
+            (result) => {
+                this.setState({ items: []});
+                this.setState({
+                    isLoaded: true,
+                    items: result.data
+                });
+            },
+            (error) => {
+                this.setState({
+                    isLoaded: true,
+                    error
+                });
+            }
+        )
+    }
 
     // toggle redux
     onToggleForm = () => {
@@ -34,48 +56,51 @@ class App extends Component {
         });
     }
 
+    clickShowFunction = typeData => () => {
+        this.setState({ module: typeData});
+    }
+
     render() {
-        const { module, setmod, reset } = this.props
+
         return (
             <div className="container">
                 <div className="text-center">
                     <h1>Json Generator</h1><hr/>
                 </div>
 
-                <div className="row">
-                    <FunctionGroup />
-                    <div className="row">
-                    <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <button type="button" className="btn btn-primary w-100" onClick={() => setmod('sdc')}>
-                        SDC
-                    </button>
+                <div className="panel panel-primary">
+                    <div className="panel-heading">
+                        <h4>List function</h4>
                     </div>
-                    <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <button type="button" className="btn btn-primary w-100" onClick={() => setmod('c-sbc')}>
-                        C-SBC
-                    </button>
+                    <div className="panel-body">
+                        <button type="button" className="btn btn-primary button-folder" onClick={this.clickShowFunction('sdc')}>
+                            SDC
+                        </button>
+                        <button type="button" className="btn btn-primary button-folder" onClick={this.clickShowFunction('c-sbc')}>
+                            C-SBC
+                        </button>
+                        <button type="button" className="btn btn-primary" onClick={this.clickShowFunction('sbc-smoke')}>
+                            SBC-Smoke
+                        </button>
                     </div>
-                    <div className="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    <button type="button" className="btn btn-primary w-100" onClick={() => setmod('sbc-smoke')}>
-                        SBC-Smoke
-                    </button>
-                    </div>
-                    </div>
-                    <hr/>
                 </div>
 
-                <div className="row">
-                    <div className='col-8'>
-                        <h3>{module}</h3>
-                        <button type="button" className="btn btn-primary" onClick={this.onToggleForm} >
-                            <span className="fa fa-plus mr-5"></span>
-                            Add Module
-                        </button>
-                        <ModuleGroupControl />
-                        <ModuleList />
-                    </div>
-                    <div className='col-12'>
-                        <JsonContentForm />
+                <div className="panel">
+                    <div className="panel-body">
+                        <div className="row">
+                            <div className='col-8'>
+                                <h3>{this.state.module}</h3>
+                                <button type="button" className="btn btn-primary" onClick={this.onToggleForm} >
+                                    <span className="fa fa-plus mr-5"></span>
+                                    Add Module
+                                </button>
+                                <ModuleGroupControl />
+                                <ModuleList />
+                            </div>
+                            <div className='col-12'>
+                                <JsonContentForm />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,7 +111,8 @@ class App extends Component {
 const mapStateToProps = state => {
     return {
         isDisplayForm : state.isDisplayForm,
-        itemEditing : state.itemEditing
+        itemEditing : state.itemEditing,
+        type : state.type
     };
 };
 
@@ -95,11 +121,14 @@ const mapDispatchToProps = (dispatch, props) => {
         onToggleForm : () => {
             dispatch(actions.toggleForm());
         },
-        onClearTask : (task) => {
-            dispatch(actions.editTask(task));
+        onClearTask : (module) => {
+            dispatch(actions.editTask(module));
         },
         onOpenForm : () => {
             dispatch(actions.openForm());
+        },
+        onChangeFolder : (folder) => {
+            dispatch(actions.changeFolder(folder));
         }
     };
 };

@@ -29,48 +29,48 @@ class ModuleList extends Component {
     }
 
     render() {
-        var { tasks, filterTable, keyword, sort } = this.props;
+        var { modules, filterTable, keyword, sort } = this.props;
         // filter on table
         if(filterTable.name){
-            tasks = tasks.filter((task) => {
-                return task.name.toLowerCase().indexOf(filterTable.name.toLowerCase()) !== -1
+            modules = modules.filter((module) => {
+                return module.name.toLowerCase().indexOf(filterTable.name.toLowerCase()) !== -1
             });
         }
 
-        tasks = tasks.filter((task) => {
+        modules = modules.filter((module) => {
             if(filterTable.status === -1){
-                return task;
+                return module;
             }else{
-                return task.status
+                return module.status
                 === (filterTable.status === 1 ? true : false);
             }
         });
 
         // search
-        tasks = tasks.filter((task) => {
-            return task.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+        modules = modules.filter((module) => {
+            return module.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
         });
 
         // sort
         if(sort.by === 'name'){
-            tasks.sort((a, b) => {
+            modules.sort((a, b) => {
                 if(a.name > b.name) return sort.value;
                 else if(a.name < b.name) return -sort.value;
                 else return 0;
             });
         }else{
-            tasks.sort((a, b) => {
+            modules.sort((a, b) => {
                 if(a.status > b.status) return -sort.value;
                 else if(a.status < b.status) return sort.value;
                 else return 0;
             });
         }
 
-        var elmTasks = tasks.map((task, index) => {
+        var elmTasks = modules.map((module, index) => {
             return (
                 <ModuleItem
-                    key={task.id}
-                    task={task}
+                    key={module.id}
+                    module={module}
                     index={index + 1}
                 />
             )
@@ -125,7 +125,7 @@ class ModuleList extends Component {
 
 const mapStateToProps = state => {
     return {
-        tasks : state.tasks,
+        modules : state.modules,
         filterTable : state.filterTable,
         keyword : state.search,
         sort : state.sort

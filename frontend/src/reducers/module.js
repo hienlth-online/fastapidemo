@@ -1,17 +1,11 @@
 import * as types from './../constants/ActionTypes';
 
-var initialState = {
-    id : '',
-    name : '',
-    content : '',
-    status : false
-};
+var initialState = 'sdc';
 var myReducer = (state = initialState, action) =>{
     switch(action.type){
-        case types.EDIT_TASK:
-            return action.module;
-        default:
+        case types.SELECT_FOLDER:
             return state;
+        default: return state;
     }
 };
 

@@ -1,13 +1,15 @@
 import { combineReducers } from 'redux';
-import tasks from './tasks';
+import modules from './modules';
 import isDisplayForm from './isDisplayForm';
 import itemEditing from './itemEditing';
 import filterTable from './filterTable';
+import module from './module';
 import search from './search';
 import sort from './sort';
 
 const myReducer = combineReducers({
-    tasks, // tasks : tasks,
+    module,
+    modules, // modules : modules,
     isDisplayForm, // isDisplayForm : isDisplayForm
     itemEditing, // itemEditing : itemEditing
     filterTable,

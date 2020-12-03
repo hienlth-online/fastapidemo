@@ -13,3 +13,5 @@ export const SORT = 'SORT';
 export const FETCH_MODULES = 'FETCH_MODULES';
 export const GET_MODULE_CONFIG = 'GET_MODULE_CONFIG';
 export const UPDATE_MODULE_CONFIG = 'UPDATE_MODULE_CONFIG';
+
+export const SELECT_FOLDER = 'SELECT_FOLDER';
