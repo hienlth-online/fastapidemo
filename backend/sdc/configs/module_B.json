@@ -1,0 +1,8 @@
+{
+  "common": {
+    "name": "submodule B",
+    "version": "1.2.3"
+  },
+  "check_code": true,
+  "unit_test": false
+}

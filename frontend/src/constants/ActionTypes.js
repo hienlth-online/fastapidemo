@@ -1,0 +1,15 @@
+export const LIST_ALL = 'LIST_ALL';
+export const SAVE_TASK = 'SAVE_TASK';
+export const TOGGLE_FORM = 'TOGGLE_FORM';
+export const CLOSE_FORM = 'CLOSE_FORM';
+export const OPEN_FORM = 'OPEN_FORM';
+export const UPDATE_STATUS_TASK = 'UPDATE_STATUS_TASK';
+export const DELETE_TASK = 'DELETE_TASK';
+export const EDIT_TASK = 'EDIT_TASK';
+export const FILTER_TABLE = 'FILTER_TABLE';
+export const SEARCH = 'SEARCH';
+export const SORT = 'SORT';
+
+export const FETCH_MODULES = 'FETCH_MODULES';
+export const GET_MODULE_CONFIG = 'GET_MODULE_CONFIG';
+export const UPDATE_MODULE_CONFIG = 'UPDATE_MODULE_CONFIG';

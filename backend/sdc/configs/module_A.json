@@ -1,0 +1,8 @@
+{
+  "common": {
+    "name": "ABC",
+    "version": "1.2.3"
+  },
+  "check_code": true,
+  "unit_test": true
+}
