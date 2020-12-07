@@ -9,10 +9,25 @@ var randomID = () => {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
-var findIndex = (modules, id) => {
+var saveData = (function () {
+    var a = document.createElement("a");
+    document.body.appendChild(a);
+    a.style = "display: none";
+    return function (data, fileName) {
+        var json = JSON.stringify(data),
+            blob = new Blob([json], {type: "octet/stream"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    };
+}());
+
+var findIndex = (tasks, id) => {
     var result = -1;
-    modules.forEach((module, index) => {
-        if(module.id === id){
+    tasks.forEach((task, index) => {
+        if(task.id === id){
             result = index;
         }
     });
@@ -31,14 +46,19 @@ function fetchModules(folder){
     return [];
 }
 
-var data = JSON.parse(localStorage.getItem('modules'));
+var data = JSON.parse(localStorage.getItem('tasks'));
 //var initialState = fetchModules('sdc');
 var initialState = data ? data : [];
+console.log(initialState);
 
 var myReducer = (state = initialState, action) =>{
     var id = '';
     var index = -1;
     switch(action.type){
+        case types.DOWNLOAD_JSON:
+            saveData(JSON.parse(action.task.content), action.task.name);
+            return state;
+
         case types.SELECT_FOLDER:
             return module;
 
@@ -49,22 +69,21 @@ var myReducer = (state = initialState, action) =>{
             return state;
 
         case types.SAVE_TASK:
-            var module = {
-                id : action.module.id,
-                name : action.module.name,
-                content : action.module.content,
-                lastUpdate : new Date().toLocaleString(), //action.module.lastUpdate,
-                status : (action.module.status === 'true' || action.module.status === true) ? true : false
+            var task = {
+                id : action.task.id,
+                name : action.task.name,
+                content : action.task.content,
+                status : (action.task.status === 'true' || action.task.status === true) ? true : false
             };
-            if(!module.id){
-                module.id = randomID();
-                state.push(module);
+            if(!task.id){
+                task.id = randomID();
+                state.push(task);
             }else{
-                index = findIndex(state, module.id);
-                state[index] = module;
+                index = findIndex(state, task.id);
+                state[index] = task;
             }
 
-            localStorage.setItem('modules', JSON.stringify(state));
+            localStorage.setItem('tasks', JSON.stringify(state));
 
             return [...state];
         case types.UPDATE_STATUS_TASK:
@@ -75,7 +94,7 @@ var myReducer = (state = initialState, action) =>{
                 status : !state[index].status
             };
 
-            localStorage.setItem('modules', JSON.stringify(state));
+            localStorage.setItem('tasks', JSON.stringify(state));
 
             return [...state];
 
@@ -84,7 +103,7 @@ var myReducer = (state = initialState, action) =>{
             index = findIndex(state, id);
             state.splice(index, 1);
 
-            localStorage.setItem('modules', JSON.stringify(state));
+            localStorage.setItem('tasks', JSON.stringify(state));
 
             return [...state];
         default:

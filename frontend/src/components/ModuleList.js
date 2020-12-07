@@ -10,8 +10,15 @@ class ModuleList extends Component {
         this.state = {
             filterName : '',
             filterStatus : -1,
-            moduleType: 'sdc'
+            activeFolder: props.activeFolder
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps) {
+            console.log('ModuleList props', nextProps);
+            this.setState({ activeFolder: nextProps.activeFolder });
+        }
     }
 
     onChange = (event) => {
@@ -84,12 +91,13 @@ class ModuleList extends Component {
                             <tr>
                                 <th className="text-center">#</th>
                                 <th className="text-center">Module</th>
+                                <th className="text-center">Last Updated</th>
                                 <th className="text-center">Status</th>
                                 <th className="text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            { /*<tr>
                                 <td></td>
                                 <td>
                                     <input
@@ -113,7 +121,7 @@ class ModuleList extends Component {
                                     </select>
                                 </td>
                                 <td></td>
-                            </tr>
+                            </tr> */ }
                             { elmTasks }
                         </tbody>
                     </table>

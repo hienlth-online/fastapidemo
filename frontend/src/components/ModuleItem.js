@@ -38,6 +38,7 @@ class ModuleItem extends Component {
             <tr>
                 <td>{ this.props.index }</td>
                 <td>{ this.props.module.name.split(".json")[0] }</td>
+                <td>{ this.props.module.lastUpdate }</td>
                 <td className="text-center">
                     { this.showStatusElement() }
                 </td>

@@ -7,7 +7,6 @@ export const listAll = () => {
     }
 };
 
-
 export const actFetchModulesRequest = () => {
     return (dispatch) => {
         return callApi('/jsonlist', 'GET', null).then(res => {
@@ -24,6 +23,7 @@ export const actFetchModules = (modules) => {
 }
 
 export const saveTask = (module) => {
+    console.log(module);
     return {
         type : types.SAVE_TASK,
         module // module : module

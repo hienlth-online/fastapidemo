@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import UJSONResponse
+
 import os
 import json
 from pydantic import BaseModel
@@ -83,3 +85,48 @@ async def update_json_file(folder : str, module : str, item : Item):
         "success": "true",
         "data": item.content
     }
+
+
+############FROM Grocery
+@app.get("/list", tags=["grocery"])
+async def get_list_items():
+    filename = "./data/db.json"
+    f = open(filename, "r")
+    contents = f.read()
+    f.close()
+    y = json.loads(contents)
+    return y["list"]
+
+@app.get("/list/{itemFind}", tags=["grocery"])
+async def get_list_item(itemFind : str):
+    filename = "./data/db.json"
+    f = open(filename, "r")
+    contents = f.read()
+    f.close()
+    items = json.loads(contents)
+    for item in items["list"]:
+        if item["item"] == itemFind:
+            return item
+
+    return None
+
+from pydantic import BaseModel
+
+class Item(BaseModel):
+    item: str
+
+@app.post("/list")
+async def create_item(itemPost: Item):
+    try:
+        filename = "./data/db.json"
+        f = open(filename, "r")
+        contents = f.read()
+        f.close()
+        items = json.loads(contents)
+        items["list"].append({ "id": 4, "item": itemPost.item})
+        f = open(filename, "r")
+        f.write(json.dumps(items))
+        f.close()
+        return itemPost
+    except:
+        return None

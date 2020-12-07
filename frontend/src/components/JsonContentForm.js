@@ -10,8 +10,9 @@ class JsonContentForm extends Component {
             id : '',
             name : '',
             status : false,
+            lastUpdate: '',
             content: '',
-            type: 'sdc'
+            activeFolder: this.props.activeFolder
         };
     }
 
@@ -21,7 +22,8 @@ class JsonContentForm extends Component {
                 id : this.props.itemEditing.id,
                 name : this.props.itemEditing.name,
                 status : this.props.itemEditing.status,
-                content : this.props.itemEditing.content
+                content : this.props.itemEditing.content,
+                lastUpdate : this.props.itemEditing.lastUpdate
             });
         }else{
             this.onClear();
@@ -34,7 +36,8 @@ class JsonContentForm extends Component {
                 id : nextProps.itemEditing.id,
                 name : nextProps.itemEditing.name,
                 status : nextProps.itemEditing.status,
-                content : nextProps.itemEditing.content
+                content : nextProps.itemEditing.content,
+                lastUpdate : nextProps.itemEditing.lastUpdate
             });
         }else{
             this.onClear();
@@ -61,6 +64,7 @@ class JsonContentForm extends Component {
         this.setState({
             name : '',
             content: '',
+            lastUpdate: '',
             status : false
         });
     }
@@ -95,9 +99,17 @@ class JsonContentForm extends Component {
                             />
                         </div>
                         <div className="form-group">
+                            <label>Last Updated :</label>
+                            <input
+                                type="text"
+                                className="form-control disabled"
+                                name="lastUpdate"
+                                value={this.state.lastUpdate}
+                            />
+                        </div>
+                        <div className="form-group">
                             <label>JSON Content :</label>
                             <textarea rows="10"
-                                type="text"
                                 className="form-control"
                                 name="content"
                                 value={this.state.content}

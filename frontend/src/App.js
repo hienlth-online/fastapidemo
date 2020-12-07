@@ -16,12 +16,12 @@ class App extends Component {
             error: null,
             isLoaded: false,
             items: [],
-            module: 'sdc'
+            activeFolder: 'sdc'
         };
     }
 
     componentDidMount() {
-        fetch(`${Config.API_URL}/jsonlist/${this.state.type}`)
+        fetch(`${Config.API_URL}/jsonlist/${this.state.activeFolder}`)
         .then(res => res.json())
         .then(
             (result) => {
@@ -52,12 +52,13 @@ class App extends Component {
             id : '',
             name : '',
             content : '',
+            lastUpdate: '',
             status : false
         });
     }
 
     clickShowFunction = typeData => () => {
-        this.setState({ module: typeData});
+        this.setState({ activeFolder: typeData});
     }
 
     render() {
@@ -84,21 +85,20 @@ class App extends Component {
                         </button>
                     </div>
                 </div>
-
                 <div className="panel">
                     <div className="panel-body">
                         <div className="row">
                             <div className='col-8'>
-                                <h3>{this.state.module}</h3>
+                                <h3>{this.state.activeFolder}</h3>
                                 <button type="button" className="btn btn-primary" onClick={this.onToggleForm} >
                                     <span className="fa fa-plus mr-5"></span>
                                     Add Module
                                 </button>
                                 <ModuleGroupControl />
-                                <ModuleList />
+                                <ModuleList activeFolder={this.state.activeFolder} />
                             </div>
                             <div className='col-12'>
-                                <JsonContentForm />
+                                <JsonContentForm activeFolder={this.state.activeFolder} />
                             </div>
                         </div>
                     </div>
